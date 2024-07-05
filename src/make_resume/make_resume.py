@@ -14,7 +14,7 @@ def make_resume():
         return 1
 
     with TEMPLATE_PATH.open() as f:
-        template = Template(f.read())
+        template = Template(f.read(), autoescape=True)
 
     html = template.render({"resume": resume, "pdf": False})
     pdf = template.render({"resume": resume, "pdf": True})

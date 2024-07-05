@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "make-resume"
-version = "0.0.4"
+version = "0.0.5"
 authors = [
   { name="Jack Murray", email="contact@jackmurray.com" },
 ]

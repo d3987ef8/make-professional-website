@@ -28,7 +28,9 @@
         <h1>{{ resume.Name }}</h1>
         <p>
                          {{ resume.City }}
-          {% if pdf %} | {{ resume.Phone }} {% endif %}
+          {% if pdf and resume.Phone %}
+                       | {{ resume.Phone }}
+          {% endif %}
                        | <a href="mailto:{{ resume.Email }}">{{ resume.Email }}</a>
           {% if resume.LinkedIn %}
                        | <a href="{{ resume.LinkedIn }}">LinkedIn</a>

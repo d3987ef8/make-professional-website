@@ -1,0 +1,29 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "make-resume"
+version = "0.0.4"
+authors = [
+  { name="Jack Murray", email="contact@jackmurray.com" },
+]
+description = "YAML to HTML resume converter"
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+  "Jinja2",
+  "pyyaml",
+]
+
+[project.urls]
+Homepage = "https://github.com/d3987ef8/make-resume"
+Issues = "https://github.com/d3987ef8/make-resume/issues"
+
+[project.scripts]
+make-resume = "make_resume.make_resume:make_resume"

@@ -1,0 +1,148 @@
+<!doctype html>
+
+<style>
+  body { font-family: Arial; }
+  table { width: 100%; }
+  p, h1, ul { margin: 0; }
+  thead { text-align: center; }
+  thead h1 { font-size: 2em; color: rgb(47, 84, 150); }
+  thead td { border-bottom: 1px solid black; }
+  .position { background-color: rgb(219, 226, 241); text-align: center; font-size: 1.5em; color: rgb(80, 113, 191); margin: 0.25em 0; }
+  .little-header { color: rgb(56, 83, 145); margin: 0.25em 0; text-align: center; }
+  .center { text-align: center; }
+  .section-header { background-color: rgb(219, 226, 241); text-align: center; font-size: 1.2em; color: black; margin: 0.25em 0 0 0; }
+  .grey-background { background-color: rgb(237, 237, 237); }
+  .role-details { border-bottom: 1px solid #ccc; }
+  .role { color: rgb(56, 83, 145); }
+</style>
+
+<meta name="description" content="{{ resume.Name }}'s Resume"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta charset="UTF-8"/>
+<title>{{ resume.Name }}</title>
+
+<table>
+  <thead>
+    <tr>
+      <td>
+        <h1>{{ resume.Name }}</h1>
+        <p>
+                         {{ resume.City }}
+          {% if pdf %} | {{ resume.Phone }} {% endif %}
+                       | <a href="mailto:{{ resume.Email }}">{{ resume.Email }}</a>
+          {% if resume.LinkedIn %}
+                       | <a href="{{ resume.LinkedIn }}">LinkedIn</a>
+          {% endif %}
+          {% if pdf %} | <a href="{{ resume.Portfolio }}">Portfolio</a>
+          {% else %}   | <a href="{{ resume.PDF }}">PDF Version</a>
+          {% endif %}
+        </p>
+      </td>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <div class="position">{{ resume.Profession }}</div>
+        <p>
+          {{ resume.Summary }}
+        </p>
+
+        <div class="little-header">Core Competencies</div>
+        <p class="center">
+          {% for competency in resume.Competencies %}
+            {% if not loop.first %} | {% endif %}
+            {{ competency }}
+          {% endfor %}
+        </p>
+
+        <div class="little-header">Technical Skills</div>
+        <p class="center">
+          <strong>Programming Languages</strong>:
+          {% for language in resume.Skills.Languages %}
+            {{ language }}{% if not loop.last %}, {% endif %}
+          {% endfor %}
+          |
+          <strong>Databases</strong>:
+          {% for database in resume.Skills.Databases %}
+            {{ database }}{% if not loop.last %}, {% endif %}
+          {% endfor %}
+        </p>
+        <p class="center">
+          <strong>Front & Back-End Web Development</strong>:
+          {% for tech in resume.Skills.WebDevelopment %}
+            {{ tech }}{% if not loop.last %}, {% endif %}
+          {% endfor %}
+        </p>
+        <p class="center">
+          <strong>DevOps & Cloud Platforms</strong>:
+          {% for tech in resume.Skills.DevOps %}
+            {{ tech }}{% if not loop.last %}, {% endif %}
+          {% endfor %}
+          |
+          <strong>Version Control</strong>:
+          {% for tech in resume.Skills.VersionControl %}
+            {{ tech }}{% if not loop.last %}, {% endif %}
+          {% endfor %}
+          |
+          <strong>Containerization</strong>:
+          {% for tech in resume.Skills.Containerization %}
+            {{ tech }}{% if not loop.last %}, {% endif %}
+          {% endfor %}
+        </p>
+        <p class="center">
+          <strong>Other Tools & Skills</strong>:
+          {% for tech in resume.Skills.Other %}
+            {{ tech }}{% if not loop.last %}, {% endif %}
+          {% endfor %}
+        </p>
+
+        <div class="section-header">PROFESSIONAL EXPERIENCE</div>
+
+        {% for experience in resume.Experience %}
+          {% if experience.Company %}
+            <div class="grey-background">
+              {{ experience.Company }}
+            </div>
+            <div class="role-details">
+              <span class="role">
+                {{ experience.Role }}
+              </span>
+              | {{ experience.Dates }} | {{ experience.City }}
+            </div>
+            <ul>
+              {% for point in experience.Description %}
+                <li>{{ point }}</li>
+              {% endfor %}
+            </ul>
+          {% else %}
+            <div>
+              <span class="role">
+                {{ experience.Event }}
+              </span>
+              ({{ experience.Dates }}): {{ experience.Description }}
+            </div>
+          {% endif %}
+        {% endfor %}
+
+        <div class="section-header">EDUCATION</div>
+
+        {% for education in resume.Education %}
+          <p class="center">
+            <span class="role">{{ education.Qualification }}</span>
+            - {{ education.Institution }} | {{ education.Year }}
+          </p>
+          <p class="center">
+            <strong>Coursework</strong>:
+            {% for coursework in education.Coursework %}
+              {{ coursework }}{% if not loop.last %}, {% endif %}
+            {% endfor %}
+          </p>
+          <p class="center">
+            <strong>Awards</strong>: {{ education.Awards }}
+          </p>
+        {% endfor %}
+      </td>
+    </tr>
+  </tbody>
+</table>

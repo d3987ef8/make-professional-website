@@ -134,8 +134,13 @@
             <span class="role">{{ education.Qualification }}</span>
             - {{ education.Institution }} | {{ education.Dates }}
           </p>
+        {% endfor %}
+
+        <div class="section-header">AWARDS</div>
+
+        {% for award in resume.Awards %}
           <p class="center">
-            <strong>Awards</strong>: {{ education.Awards }}
+            {{ award }}
           </p>
         {% endfor %}
       </td>

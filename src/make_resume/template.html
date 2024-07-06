@@ -129,20 +129,24 @@
 
         <div class="section-header">EDUCATION</div>
 
-        {% for education in resume.Education %}
-          <p class="center">
-            <span class="role">{{ education.Qualification }}</span>
-            - {{ education.Institution }} | {{ education.Dates }}
-          </p>
-        {% endfor %}
+        <ul>
+          {% for education in resume.Education %}
+            <li>
+              <span class="role">{{ education.Qualification }}</span>
+              - {{ education.Institution }} | {{ education.Dates }}
+            </li>
+          {% endfor %}
+        </ul>
 
         <div class="section-header">AWARDS</div>
 
-        {% for award in resume.Awards %}
-          <p class="center">
-            {{ award }}
-          </p>
-        {% endfor %}
+        <ul>
+          {% for award in resume.Awards %}
+            <li>
+              {{ award }}
+            </li>
+          {% endfor %}
+        </ul>
       </td>
     </tr>
   </tbody>

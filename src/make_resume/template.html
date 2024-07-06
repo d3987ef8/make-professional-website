@@ -132,13 +132,7 @@
         {% for education in resume.Education %}
           <p class="center">
             <span class="role">{{ education.Qualification }}</span>
-            - {{ education.Institution }} | {{ education.Year }}
-          </p>
-          <p class="center">
-            <strong>Coursework</strong>:
-            {% for coursework in education.Coursework %}
-              {{ coursework }}{% if not loop.last %}, {% endif %}
-            {% endfor %}
+            - {{ education.Institution }} | {{ education.Dates }}
           </p>
           <p class="center">
             <strong>Awards</strong>: {{ education.Awards }}

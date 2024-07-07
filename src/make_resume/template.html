@@ -14,6 +14,7 @@
   .grey-background { background-color: rgb(237, 237, 237); }
   .role-details { border-bottom: 1px solid #ccc; }
   .role, a, a:visited { color: rgb(56, 83, 145); }
+  .competency { white-space: nowrap; }
 </style>
 
 <meta name="description" content="{{ resume.Name }}'s Resume"/>
@@ -54,7 +55,7 @@
         <p class="center">
           {% for competency in resume.Competencies %}
             {% if not loop.first %} | {% endif %}
-            {{ competency }}
+            <span class="competency">{{ competency }}</span>
           {% endfor %}
         </p>
 

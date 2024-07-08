@@ -33,6 +33,9 @@
                        | {{ resume.Phone }}
           {% endif %}
                        | <a href="mailto:{{ resume.Email }}">{{ resume.Email }}</a>
+          {% if not pdf %}
+                       | <a href="contact.html">Contact Form</a>
+          {% endif %}
           {% if resume.LinkedIn %}
                        | <a href="{{ resume.LinkedIn }}">LinkedIn</a>
           {% endif %}

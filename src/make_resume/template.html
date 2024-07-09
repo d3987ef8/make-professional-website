@@ -17,9 +17,9 @@
   .competency { white-space: nowrap; }
 </style>
 
-<meta name="description" content="{{ resume.Name }}'s Resume"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<meta charset="UTF-8"/>
+<meta name="description" content="{{ resume.Name }}'s Resume">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
 <title>{{ resume.Name }}</title>
 
 <table>
@@ -154,9 +154,9 @@
 
 {% if not pdf %}
   <hr>
-  <div style="text-align: center"><a href="https://dashboard.simpleanalytics.com/{{ domain }}?utm_source={{ domain }}&utm_content=badge" referrerpolicy="origin" target="_blank"><picture><source srcset="https://simpleanalyticsbadges.com/{{ domain }}?mode=dark" media="(prefers-color-scheme: dark)" /><img src="https://simpleanalyticsbadges.com/{{ domain }}?mode=light" loading="lazy" referrerpolicy="no-referrer" crossorigin="anonymous" /></picture></a></div>
+  <div style="text-align: center"><a href="https://dashboard.simpleanalytics.com/{{ domain }}?utm_source={{ domain }}&utm_content=badge" referrerpolicy="origin" target="_blank"><picture><source srcset="https://simpleanalyticsbadges.com/{{ domain }}?mode=dark" media="(prefers-color-scheme: dark)"><img src="https://simpleanalyticsbadges.com/{{ domain }}?mode=light" loading="lazy" referrerpolicy="no-referrer" crossorigin="anonymous"></picture></a></div>
 
   <!-- 100% privacy-first analytics -->
   <script async defer src="https://scripts.simpleanalyticscdn.com/latest.js"></script>
-  <noscript><img src="https://queue.simpleanalyticscdn.com/noscript.gif" alt="" referrerpolicy="no-referrer-when-downgrade" /></noscript>
+  <noscript><img src="https://queue.simpleanalyticscdn.com/noscript.gif" alt="" referrerpolicy="no-referrer-when-downgrade"></noscript>
 {% endif %}

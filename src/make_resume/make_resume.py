@@ -22,7 +22,7 @@ def make_resume():
 
     for domain in resume["Domains"]:
         email = f"contact@{domain}"
-        portfolio = "https://www.{domain}"
+        portfolio = f"https://www.{domain}"
 
         html = template.render({
             "domain": domain,
@@ -39,7 +39,7 @@ def make_resume():
 
     domain = resume["Domains"][0]
     email = f"contact@{domain}"
-    portfolio = "https://www.{domain}"
+    portfolio = f"https://www.{domain}"
 
     pdf = template.render({
         "domain": domain,

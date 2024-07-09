@@ -25,10 +25,11 @@ def make_resume():
         portfolio = "https://www.{domain}"
 
         html = template.render({
-          "resume": resume,
-          "pdf": False,
-          "email": email,
-          "portfolio": portfolio,
+            "domain": domain,
+            "resume": resume,
+            "pdf": False,
+            "email": email,
+            "portfolio": portfolio,
         })
 
         with open(f"{domain}/index.html", "w") as f:
@@ -41,10 +42,11 @@ def make_resume():
     portfolio = "https://www.{domain}"
 
     pdf = template.render({
-      "resume": resume,
-      "pdf": True,
-      "email": email,
-      "portfolio": portfolio,
+        "domain": domain,
+        "resume": resume,
+        "pdf": True,
+        "email": email,
+        "portfolio": portfolio,
     })
 
     with open("pdf.html", "w") as f:

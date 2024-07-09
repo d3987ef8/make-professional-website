@@ -32,14 +32,14 @@
           {% if pdf and resume.Phone %}
                        | {{ resume.Phone }}
           {% endif %}
-                       | <a href="mailto:{{ resume.Email }}">{{ resume.Email }}</a>
+                       | <a href="mailto:{{ email }}">{{ email }}</a>
           {% if not pdf %}
                        | <a href="contact.html">Contact Form</a>
           {% endif %}
           {% if resume.LinkedIn %}
                        | <a href="{{ resume.LinkedIn }}">LinkedIn</a>
           {% endif %}
-          {% if pdf %} | <a href="{{ resume.Portfolio }}">Portfolio</a>
+          {% if pdf %} | <a href="{{ portfolio }}">Portfolio</a>
           {% else %}   | <a href="{{ resume.PDF }}">PDF Version</a>
           {% endif %}
         </p>

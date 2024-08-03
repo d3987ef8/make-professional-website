@@ -3,14 +3,14 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "make-resume"
-version = "0.0.18"
+name = "make-professional-website"
+version = "0.1.0"
 authors = [
   { name="Jack Murray", email="contact@jackmurray.com" },
 ]
-description = "YAML to HTML resume converter"
+description = "A command-line interface tool to make a professional HTML website from YAML files."
 readme = "README.md"
-requires-python = ">=3.8"
+requires-python = ">=3.9"
 classifiers = [
     "Programming Language :: Python :: 3",
     "License :: OSI Approved :: MIT License",
@@ -22,8 +22,8 @@ dependencies = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/d3987ef8/make-resume"
-Issues = "https://github.com/d3987ef8/make-resume/issues"
+Homepage = "https://github.com/d3987ef8/make-professional-website"
+Issues = "https://github.com/d3987ef8/make-professional-website/issues"
 
 [project.scripts]
-make-resume = "make_resume.make_resume:make_resume"
+make-professional_website = "make_professional_website.make_professional_website:make_professional_website"

@@ -10,10 +10,10 @@ from make_professional_website.modules.sitemap import Sitemap
 from make_professional_website.modules.markdown import Markdown
 
 MODULES = {
-    "resume": Resume(),
-    "email": Email(),
-    "sitemap": Sitemap(),
-    "markdown": Markdown(),
+    "Resume": Resume(),
+    "Email": Email(),
+    "Sitemap": Sitemap(),
+    "Markdown": Markdown(),
 }
 
 sys.tracebacklimit = 0
@@ -24,16 +24,16 @@ SITEMAP_TEMPLATE_PATH = get_file_directory_path(__file__) / "sitemap.xml"
 
 def make_professional_website():
     # Load globals
-    globals_path = Path("content/globals.yaml")
+    globals_path = Path("content/Globals.yaml")
     try:
         with globals_path.open("r") as f:
             globals = safe_load(f)
     except Exception as e:
-        print("Error: Could not load globals.yaml")
+        print("Error: Could not load Globals.yaml")
         print(e)
         return 1
     if "Domains" not in globals:
-        print("Error: globals.yaml must contain at least one domain.")
+        print("Error: Globals.yaml must contain at least one domain.")
         return 1
 
     # Main loop: For each domain
@@ -49,7 +49,7 @@ def make_professional_website():
         # Inner loop: For each YAML file in the current directory.
         for yaml_path in Path("content").glob("*.yaml"):
             # Special-case globals.yaml since we already handled that above.
-            if yaml_path.parts[-1] == "globals.yaml":
+            if yaml_path.parts[-1] == "Globals.yaml":
                 continue
 
             name = yaml_path.stem
@@ -105,7 +105,7 @@ def make_professional_website():
 
         # Update the sitemap.
         content = {"paths": sitemap_paths}
-        [output_file] = MODULES["sitemap"].get_output_files(globals, content)
+        [output_file] = MODULES["Sitemap"].get_output_files(globals, content)
         domain_specific_path = Path(domain) / output_file.path
         with domain_specific_path.open("w") as f:
             f.write(output_file.rendered_content)

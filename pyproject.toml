@@ -17,8 +17,9 @@ classifiers = [
     "Operating System :: OS Independent",
 ]
 dependencies = [
-  "Jinja2",
-  "pyyaml",
+    "Jinja2",
+    "pyyaml",
+    "markdown",
 ]
 
 [project.urls]
@@ -27,4 +28,4 @@ Issues = "https://github.com/d3987ef8/make-professional-website/issues"
 
 [project.scripts]
 make-professional-website = "make_professional_website.make_professional_website:make_professional_website"
-mpw = "make_professional_website.make_professional_website:make_professional_website"
+pwm = "make_professional_website.make_professional_website:make_professional_website"

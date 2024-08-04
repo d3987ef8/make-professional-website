@@ -21,19 +21,19 @@
   textarea { height: 10em; }
 </style>
 
-<meta name="description" content="{{ email.Description }}"/>
+<meta name="description" content="{{ content.Title }}"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <meta charset="UTF-8"/>
 
-<title>{{ email.Title }}</title>
+<title>{{ content.Title }}</title>
 
 <table>
   <thead>
     <tr>
       <td>
-        <h1>{{ email.Header }}</h1>
+        <h1>{{ content.Title }}</h1>
         <p>
-          <a href="/index.html">Back to resume</a>
+          <a href="/">Back to resume</a>
         </p>
       </td>
     </tr>
@@ -41,17 +41,7 @@
   <tbody>
     <tr>
       <td>
-        <form action="https://formsubmit.co/contact@{{ globals.Domain }}" method="POST" enctype="multipart/form-data">
-          <input type="text" name="name" placeholder="Name" required>
-          <input type="email" name="email" placeholder="Email address" required>
-          <textarea name="message" placeholder="Message"></textarea>
-          <input type="file" name="attachment">
-          <input type="hidden" name="_next" value="https://www.{{ globals.Domain }}/email/sent.html">
-          <input type="hidden" name="_template" value="box">
-          <button type="submit">Send</button>
-        </form>
-        <p>This contact form is managed by FormSubmit, a service provided by Devro LABS.</p>
-        <p>To learn more about how Devro LABS handles your data, please read their <a href="https://formsubmit.co/privacy.pdf">Privacy Policy</a>.</p>
+        Your email has been sent.
       </td>
     </tr>
   </tbody>

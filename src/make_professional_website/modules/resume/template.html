@@ -3,7 +3,11 @@
 <style>
   body { font-family: Arial; line-height: 150%; }
   table { width: 100%; }
-  p, h1, ul { margin: 0; }
+  {% if pdf %}
+    p, h1, ul { margin: 0 }
+  {% else %}
+    p, h1, ul { margin: 0.5em 0; }
+  {% endif %}
   thead { text-align: center; }
   thead h1 { font-size: 2em; color: rgb(47, 84, 150); }
   thead td { border-bottom: 1px solid black; }
@@ -17,30 +21,32 @@
   .competency { white-space: nowrap; }
 </style>
 
-<meta name="description" content="{{ resume.Name }}'s Resume">
+<meta name="description" content="{{ content.Name }}'s Resume">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta charset="UTF-8">
-<title>{{ resume.Name }}</title>
+<title>{{ content.Name }}</title>
 
 <table>
   <thead>
     <tr>
       <td>
-        <h1>{{ resume.Name }}</h1>
+        <h1>{{ content.Name }}</h1>
         <p>
-                         {{ resume.City }}
-          {% if pdf and resume.Phone %}
-                       | {{ resume.Phone }}
+                         {{ content.City }}
+          {% if pdf and content.Phone %}
+                       | {{ content.Phone }}
           {% endif %}
-                       | <a href="mailto:{{ resume.Email }}">{{ resume.Email }}</a>
+                       | <a href="mailto:{{ content.Email }}">{{ content.Email }}</a>
           {% if not pdf %}
-                       | <a href="contact.html">Contact Form</a>
+                       | <a href="email/form.html">Contact Form</a>
           {% endif %}
-          {% if resume.LinkedIn %}
-                       | <a href="https://www.linkedin.com/in/{{ resume.LinkedIn }}/">LinkedIn</a>
+          {% if content.LinkedIn %}
+                       | <a href="https://www.linkedin.com/in/{{ content.LinkedIn }}/">LinkedIn</a>
           {% endif %}
-          {% if pdf %} | <a href="{{ resume.Portfolio }}">Portfolio</a>
-          {% else %}   | <a href="{{ resume.PDF }}">PDF Version</a>
+          {% if pdf %} | <a href="{{ content.Portfolio }}">Portfolio</a>
+          {% else %}
+                       | <a href="{{ content.PDF }}">PDF Version</a>
+                       | <a href="holy+guidance.html">Holy Guidance</a>
           {% endif %}
         </p>
       </td>
@@ -49,14 +55,14 @@
   <tbody>
     <tr>
       <td>
-        <div class="position">{{ resume.Profession }}</div>
+        <div class="position">{{ content.Profession }}</div>
         <p>
-          {{ resume.Summary }}
+          {{ content.Summary }}
         </p>
 
         <div class="little-header">Core Competencies</div>
         <p class="center">
-          {% for competency in resume.Competencies %}
+          {% for competency in content.Competencies %}
             {% if not loop.first %} | {% endif %}
             <span class="competency">{{ competency }}</span>
           {% endfor %}
@@ -65,47 +71,47 @@
         <div class="little-header">Technical Skills</div>
         <p class="center">
           <strong>Programming Languages</strong>:
-          {% for language in resume.Skills.Languages %}
+          {% for language in content.Skills.Languages %}
             {{ language }}{% if not loop.last %}, {% endif %}
           {% endfor %}
           |
           <strong>Databases</strong>:
-          {% for database in resume.Skills.Databases %}
+          {% for database in content.Skills.Databases %}
             {{ database }}{% if not loop.last %}, {% endif %}
           {% endfor %}
         </p>
         <p class="center">
           <strong>Front & Back-End Web Development</strong>:
-          {% for tech in resume.Skills.WebDevelopment %}
+          {% for tech in content.Skills.WebDevelopment %}
             {{ tech }}{% if not loop.last %}, {% endif %}
           {% endfor %}
         </p>
         <p class="center">
           <strong>DevOps & Cloud Platforms</strong>:
-          {% for tech in resume.Skills.DevOps %}
+          {% for tech in content.Skills.DevOps %}
             {{ tech }}{% if not loop.last %}, {% endif %}
           {% endfor %}
           |
           <strong>Version Control</strong>:
-          {% for tech in resume.Skills.VersionControl %}
+          {% for tech in content.Skills.VersionControl %}
             {{ tech }}{% if not loop.last %}, {% endif %}
           {% endfor %}
           |
           <strong>Containerization</strong>:
-          {% for tech in resume.Skills.Containerization %}
+          {% for tech in content.Skills.Containerization %}
             {{ tech }}{% if not loop.last %}, {% endif %}
           {% endfor %}
         </p>
         <p class="center">
           <strong>Other Tools & Skills</strong>:
-          {% for tech in resume.Skills.Other %}
+          {% for tech in content.Skills.Other %}
             {{ tech }}{% if not loop.last %}, {% endif %}
           {% endfor %}
         </p>
 
         <div class="section-header">PROFESSIONAL EXPERIENCE</div>
 
-        {% for experience in resume.Experience %}
+        {% for experience in content.Experience %}
           {% if experience.Company %}
             <div class="grey-background">
               {{ experience.Company }}
@@ -133,7 +139,7 @@
 
         <div class="section-header">EDUCATION</div>
 
-        {% for education in resume.Education %}
+        {% for education in content.Education %}
           <p class="center">
             <span class="role">{{ education.Qualification }}</span>
             - {{ education.Institution }} | {{ education.Dates }}
@@ -142,7 +148,7 @@
 
         <div class="section-header">AWARDS</div>
 
-        {% for award in resume.Awards %}
+        {% for award in content.Awards %}
           <p class="center">
             {{ award }}
           </p>

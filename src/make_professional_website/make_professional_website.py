@@ -1,20 +1,30 @@
 from yaml import safe_load
-from jinja2 import Template
 from pathlib import Path
+from .__init__ import get_file_directory_path
 import sys
-import os
+
+# Modules
+from make_professional_website.modules.resume import Resume
+from make_professional_website.modules.email import Email
+from make_professional_website.modules.sitemap import Sitemap
+from make_professional_website.modules.markdown import Markdown
+
+MODULES = {
+    "resume": Resume(),
+    "email": Email(),
+    "sitemap": Sitemap(),
+    "markdown": Markdown(),
+}
 
 sys.tracebacklimit = 0
 
-TEMPLATE_PATH = Path(os.path.os.path.realpath(__file__)).parent
+LANDING_PAGE_MODULE_NAME = "resume"
 
-LANDING_PAGE_TEMPLATE_NAME = "resume"
+SITEMAP_TEMPLATE_PATH = get_file_directory_path(__file__) / "sitemap.xml"
 
 def make_professional_website():
-
     # Load globals
-
-    globals_path = Path("globals.yaml")
+    globals_path = Path("content/globals.yaml")
     try:
         with globals_path.open("r") as f:
             globals = safe_load(f)
@@ -26,58 +36,25 @@ def make_professional_website():
         print("Error: globals.yaml must contain at least one domain.")
         return 1
 
-    # Flag used to ensure we only generate pdf.html once
-
-    generated_pdf_html = False
-
     # Main loop: For each domain
-
     for domain in globals["Domains"]:
 
-        # Set "Domain" global variable and initialize sitemap paths to empty list
+        # Status update
+        print(f"[+] Processing {domain}")
 
+        # Set "Domain" global variable and initialize sitemap paths to empty list
         globals["Domain"] = domain
         sitemap_paths = []
 
-        # Inner loop: For each built-in template
-
-        for template_path in TEMPLATE_PATH.glob("**/*.html"):
-
-            if len(template_path.parts) == 1 + len(TEMPLATE_PATH.parts):
-                # If the template is not in a subdirectory, extract the name from
-                # the stem of the file
-                name = template_path.stem
-
-                # The place we will output the rendered content to
-                output_path = f"{name}.html"
-
-                # Remember that we will not need a subdirectory for this output
-                # file.
-                should_mkdir = False
-            else:
-                # Otherwise if it is in a subdirectory, select the name of the
-                # directory as the name of the templates. This is used in cases
-                # where there are multiple HTML Jinja2 template files
-                # that are associated.
-                name = template_path.parts[-2]
-
-                # The place we will output the rendered content to
-                output_path = f"{name}/{template_path.parts[-1]}"
-
-                # Remember to make a subdirectory in the website raw HTML output
-                should_mkdir = True
-
-            # Find the yaml file in the current working directory that is
-            # expected with this template.
-
-            yaml_path = Path(f"{name}.yaml")
-            if not yaml_path.exists():
-                # If it doesn't exist, there is nothing more to do with this
-                # template path.
+        # Inner loop: For each YAML file in the current directory.
+        for yaml_path in Path("content").glob("*.yaml"):
+            # Special-case globals.yaml since we already handled that above.
+            if yaml_path.parts[-1] == "globals.yaml":
                 continue
 
-            # Try to read the YAML file then print status to the terminal.
+            name = yaml_path.stem
 
+            # Try to read the YAML file then print status to the terminal.
             try:
                 with yaml_path.open("r") as f:
                     raw_txt = f.read()
@@ -86,86 +63,50 @@ def make_professional_website():
                             # Substitute in global variables, denoted by
                             # __VariableName__
                             raw_txt = raw_txt.replace(f"__{g}__", globals[g])
-                    yaml = safe_load(raw_txt)
+                    content = safe_load(raw_txt)
             except Exception as e:
                 print(f"Error: Could not load {name}.yaml")
                 print(e)
                 return 1
+            print(f"    [+] Loaded {name}.yaml")
 
-            print(f"[+] Loaded {name}.yaml")
+            content["__name__"] = name
 
-            # Now try to load the built-in template file, and print status.
+            # Find the module name and path
+            if "Module" in content:
+                module_name = content["Module"]
+            else:
+                module_name = yaml_path.stem
 
-            try:
-                with template_path.open("r") as f:
-                    template = Template(f.read(), autoescape=True)
-            except Exception as e:
-                print(f"Could not load {output_path} template")
-                print(e)
+            # Ensure the module exists
+            if not module_name in MODULES:
+                print(f"Error: Module does not exist: {module_name}")
                 return 1
 
-            print(f"[+] Loaded {output_path} template")
+            # Get path and content for output file and write to disk
+            for output_file in MODULES[module_name].get_output_files(globals, content):
+                output_file.path.parent.mkdir(exist_ok=True)
+                domain_specific_path = Path(domain) / output_file.path
 
-            # Now render the template with the data in the YAML file.
-            # Specify "pdf": False to indicate it is intended for the web and
-            # not intended for PDF rendering.
+                with domain_specific_path.open("w") as f:
+                    f.write(output_file.rendered_content)
+                print(f"        [+] Generated {domain_specific_path}")
 
-            html = template.render({
-                name: yaml,
-                "globals": globals,
-                "pdf": False,
-            })
+                # Remember the output path for when we generate the sitemap.xml
+                if output_file.path.parts[-1] == "pdf.html":
+                    pass
+                elif output_file.path.parts[-1] == "index.html":
+                    if len(output_file.path.parts) == 1:
+                        sitemap_paths.append("")
+                    else:
+                        sitemap_paths.append(str(output_file.path).replace("index.html", ""))
+                else:
+                    sitemap_paths.append(str(output_file.path))
 
-            # Add the path of the HTML output file to the list of URLs we will
-            # include in the sitemap.
-
-            if name == LANDING_PAGE_TEMPLATE_NAME:
-                sitemap_paths.append("")
-            elif output_path.endswith("index.html"):
-                sitemap_paths.append(f"{output_path.parent}/")
-            else:
-                sitemap_paths.append(output_path)
-
-            # Update the output path to include the domain as the initial
-            # subdirectory.
-            output_path = Path(domain) / ("index.html" if name == LANDING_PAGE_TEMPLATE_NAME else output_path)
-
-            # Make sure to make the subdirectory that holds all the HTML files related to this module.
-            if should_mkdir:
-                output_path.parent.mkdir(exist_ok=True)
-
-            # Now actually output the rendered template
-            with output_path.open("w") as f:
-                f.write(html)
-
-            # Print status message.
-            print(f"[+] Generated {output_path}")
-
-            # Check if we're going to do the hacky pdf.html thing for the
-            # resume template, and if so then do the hacky thing.
-            if (name == "resume") and ("PDF" in yaml) and (yaml["PDF"]) and (not generated_pdf_html):
-                pdf_html = template.render({
-                    name: yaml,
-                    "globals": globals,
-                    "pdf": True,
-                })
-                with open("pdf.html", "w") as f:
-                    f.write(pdf_html)
-                print("[+] Generated pdf.html")
-                generated_pdf_html = True
-
-        # For each domain, generate a sitemap.xml
-        try:
-            with Path(TEMPLATE_PATH / "sitemap.xml").open("r") as f:
-                template = Template(f.read(), autoescape=True)
-        except Exception as e:
-            print("Could not load sitemap.xml template")
-            print(e)
-            return 1
-        sitemap_xml = template.render({
-            "paths": sitemap_paths,
-            "globals": globals,
-        })
-        with (Path(domain) / "sitemap.xml").open("w") as f:
-            f.write(sitemap_xml)
+        content = {"paths": sitemap_paths}
+        [output_file] = MODULES["sitemap"].get_output_files(globals, content)
+        domain_specific_path = Path(domain) / output_file.path
+        with domain_specific_path.open("w") as f:
+            f.write(output_file.rendered_content)
+        print(f"    [+] Generated {domain_specific_path}")
     return 0

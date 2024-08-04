@@ -1,7 +1,6 @@
 # make-professional-website (mpw)
 
-This is a Python package that provides the CLI scripts
-`make-professional-website` and `mpw` for short (they do the same thing).
+This is a Python package that provides the CLI script `pwm` ("Professional Website Maker").
 
 It is intended for anybody who prefers to maintain their data in plain text YAML files.
 

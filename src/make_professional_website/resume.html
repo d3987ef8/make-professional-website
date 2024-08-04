@@ -32,14 +32,14 @@
           {% if pdf and resume.Phone %}
                        | {{ resume.Phone }}
           {% endif %}
-                       | <a href="mailto:{{ email }}">{{ email }}</a>
+                       | <a href="mailto:{{ resume.Email }}">{{ resume.Email }}</a>
           {% if not pdf %}
                        | <a href="contact.html">Contact Form</a>
           {% endif %}
           {% if resume.LinkedIn %}
-                       | <a href="{{ resume.LinkedIn }}">LinkedIn</a>
+                       | <a href="https://www.linkedin.com/in/{{ resume.LinkedIn }}/">LinkedIn</a>
           {% endif %}
-          {% if pdf %} | <a href="{{ portfolio }}">Portfolio</a>
+          {% if pdf %} | <a href="{{ resume.Portfolio }}">Portfolio</a>
           {% else %}   | <a href="{{ resume.PDF }}">PDF Version</a>
           {% endif %}
         </p>
@@ -152,9 +152,9 @@
   </tbody>
 </table>
 
-{% if not pdf %}
+{% if not pdf and globals.SimpleAnalytics %}
   <hr>
-  <div style="text-align: center"><a href="https://dashboard.simpleanalytics.com/{{ domain }}?utm_source={{ domain }}&utm_content=badge" referrerpolicy="origin" target="_blank"><picture><source srcset="https://simpleanalyticsbadges.com/{{ domain }}?mode=dark" media="(prefers-color-scheme: dark)"><img src="https://simpleanalyticsbadges.com/{{ domain }}?mode=light" loading="lazy" referrerpolicy="no-referrer" crossorigin="anonymous"></picture></a></div>
+  <div style="text-align: center"><a href="https://dashboard.simpleanalytics.com/{{ globals.Domain }}?utm_source={{ globals.Domain }}&utm_content=badge" referrerpolicy="origin" target="_blank"><picture><source srcset="https://simpleanalyticsbadges.com/{{ globals.Domain }}?mode=dark" media="(prefers-color-scheme: dark)"><img src="https://simpleanalyticsbadges.com/{{ globals.Domain }}?mode=light" loading="lazy" referrerpolicy="no-referrer" crossorigin="anonymous"></picture></a></div>
 
   <!-- 100% privacy-first analytics -->
   <script async defer src="https://scripts.simpleanalyticscdn.com/latest.js"></script>

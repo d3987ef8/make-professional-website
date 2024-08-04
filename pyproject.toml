@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "make-professional-website"
-version = "0.1.0"
+version = "0.1.1"
 authors = [
   { name="Jack Murray", email="contact@jackmurray.com" },
 ]
@@ -26,4 +26,4 @@ Homepage = "https://github.com/d3987ef8/make-professional-website"
 Issues = "https://github.com/d3987ef8/make-professional-website/issues"
 
 [project.scripts]
-make-professional_website = "make_professional_website.make_professional_website:make_professional_website"
+make-professional-website = "make_professional_website.make_professional_website:make_professional_website"

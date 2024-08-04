@@ -1,0 +1,66 @@
+<!doctype html>
+
+<link rel="stylesheet" href="pico.css"/>
+<style>
+  * { box-sizing: border-box; }
+  body { font-family: Arial; line-height: 150%; }
+  table { width: 100%; }
+  p, h1, ul { margin: 0; }
+  thead { text-align: center; }
+  thead h1 { font-size: 2em; color: rgb(47, 84, 150); }
+  thead td { border-bottom: 1px solid black; }
+  .position { background-color: rgb(219, 226, 241); text-align: center; font-size: 1.5em; color: rgb(80, 113, 191); margin: 0.25em 0; }
+  .little-header { color: rgb(56, 83, 145); margin: 0.25em 0; text-align: center; }
+  .center { text-align: center; }
+  .section-header { background-color: rgb(219, 226, 241); text-align: center; font-size: 1.2em; color: black; margin: 0.25em 0 0 0; }
+  .grey-background { background-color: rgb(237, 237, 237); }
+  .role-details { border-bottom: 1px solid #ccc; }
+  .role, a, a:visited { color: rgb(56, 83, 145); }
+  .competency { white-space: nowrap; }
+  input, button, textarea { display: block; padding: 1em; width: 100%; }
+  textarea { height: 10em; }
+</style>
+
+<meta name="description" content="{{ email.Description }}"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta charset="UTF-8"/>
+
+<title>{{ email.Title }}</title>
+
+<table>
+  <thead>
+    <tr>
+      <td>
+        <h1>{{ email.Header }}</h1>
+        <p>
+          <a href="/index.html">Back to resume</a>
+        </p>
+      </td>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <form action="https://formsubmit.co/contact@{{ globals.Domain }}" method="POST" enctype="multipart/form-data">
+          <input type="text" name="name" placeholder="Name" required>
+          <input type="email" name="email" placeholder="Email address" required>
+          <textarea name="message" placeholder="Message"></textarea>
+          <input type="file" name="attachment">
+          <input type="hidden" name="_next" value="https://www.{{ globals.Domain }}/email/sent.html">
+          <input type="hidden" name="_template" value="box">
+          <button type="submit">Send</button>
+        </form>
+        <p>This contact form is managed by FormSubmit, a service provided by Devro LABS.</p>
+        <p>To learn more about how Devro LABS handles your data, please read their <a href="https://formsubmit.co/privacy.pdf">Privacy Policy</a>.</p>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+{% if globals.SimpleAnalytics %}
+  <div style="text-align: center"><a href="https://dashboard.simpleanalytics.com/{{ globals.Domain }}?utm_source={{ globals.Domain }}&utm_content=badge" referrerpolicy="origin" target="_blank"><picture><source srcset="https://simpleanalyticsbadges.com/{{ globals.Domain }}?mode=dark" media="(prefers-color-scheme: dark)" /><img src="https://simpleanalyticsbadges.com/{{ globals.Domain }}?mode=light" loading="lazy" referrerpolicy="no-referrer" crossorigin="anonymous" /></picture></a></div>
+
+  <!-- 100% privacy-first analytics -->
+  <script async defer src="https://scripts.simpleanalyticscdn.com/latest.js"></script>
+  <noscript><img src="https://queue.simpleanalyticscdn.com/noscript.gif" alt="" referrerpolicy="no-referrer-when-downgrade" /></noscript>
+{% endif %}

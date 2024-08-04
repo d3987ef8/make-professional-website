@@ -19,6 +19,7 @@
   .competency { white-space: nowrap; }
   input, button, textarea { display: block; padding: 1em; width: 100%; }
   textarea { height: 10em; }
+  .content { margin: 1em auto; max-width: 40em; }
 </style>
 
 <meta name="description" content="{{ content.Title }}"/>
@@ -33,7 +34,9 @@
       <td>
         <h1>{{ content.Title }}</h1>
         <p>
-          <a href="/">Back to resume</a>
+                       <a href="/">About Jack</a>
+                     | <a href="/Resume.html">Resume</a>
+                     | <a href="/Holy_Guidance.html">Holy Guidance</a>
         </p>
       </td>
     </tr>
@@ -41,7 +44,9 @@
   <tbody>
     <tr>
       <td>
-        Your email has been sent.
+        <div class="content">
+          Your email has been sent.
+        </div>
       </td>
     </tr>
   </tbody>

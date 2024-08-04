@@ -29,7 +29,7 @@ class Resume(Module):
         })
 
         return [
-            OutputFile(Path("index.html"), rendered_website_content),
+            OutputFile(Path("resume.html"), rendered_website_content),
             # XXX: A hack automatically does not include domain prefix for this path
-            OutputFile(Path("pdf.html"), rendered_pdf_content),
+            OutputFile(Path("resume+pdf.html"), rendered_pdf_content),
         ]

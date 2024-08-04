@@ -85,24 +85,25 @@ def make_professional_website():
 
             # Get path and content for output file and write to disk
             for output_file in MODULES[module_name].get_output_files(globals, content):
-                output_file.path.parent.mkdir(exist_ok=True)
                 domain_specific_path = Path(domain) / output_file.path
+                domain_specific_path.parent.mkdir(exist_ok=True)
 
                 with domain_specific_path.open("w") as f:
                     f.write(output_file.rendered_content)
                 print(f"        [+] Generated {domain_specific_path}")
 
-                # Remember the output path for when we generate the sitemap.xml
-                if output_file.path.parts[-1] == "pdf.html":
-                    pass
-                elif output_file.path.parts[-1] == "index.html":
-                    if len(output_file.path.parts) == 1:
-                        sitemap_paths.append("")
-                    else:
-                        sitemap_paths.append(str(output_file.path).replace("index.html", ""))
-                else:
-                    sitemap_paths.append(str(output_file.path))
+                # Remember to update the sitemap!
+                sitemap_paths.append(str(output_file.path))
 
+        # Inner loop: Copy images
+        for img_path in Path("content").glob("*.png"):
+            domain_specific_path = Path(domain) / img_path.parts[-1]
+            domain_specific_path.parent.mkdir(exist_ok=True)
+            with img_path.open("rb") as f:
+                with domain_specific_path.open("wb") as g:
+                    g.write(f.read())
+
+        # Update the sitemap.
         content = {"paths": sitemap_paths}
         [output_file] = MODULES["sitemap"].get_output_files(globals, content)
         domain_specific_path = Path(domain) / output_file.path

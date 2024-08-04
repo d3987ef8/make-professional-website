@@ -14,7 +14,7 @@ class Email(Module):
 
     def get_output_files(self, globals, content):
         output_files = []
-        for name in ["form", "sent"]:
+        for name in ["Form", "Sent"]:
             rendered_website_content = self.load_template(name).render({
                 "content": content,
                 "globals": globals,

@@ -36,8 +36,9 @@
           {% if pdf and content.Phone %}
                        | {{ content.Phone }}
           {% endif %}
+          {% if pdf %}
                        | <a href="mailto:{{ content.Email }}">{{ content.Email }}</a>
-          {% if not pdf %}
+          {% else %}
                        | <a href="email/Form.html">Contact Information</a>
           {% endif %}
           {% if content.LinkedIn %}
